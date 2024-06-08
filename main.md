@@ -92,6 +92,19 @@ FPGA是一種集成了大量可程式設計邏輯單元的晶片，具有高並�
 
 ## 5. Verilog實現 (Verilog Implementation)
 ### 5.1 調製模組 (Modulation Module)
-![alt text](image.png)
+```
+// PSK Modulation
+always @(posedge clk_1M or negedge rst) begin
+  if (!rst) begin
+    Mod_out0 <= 0;
+    Mod_out1 <= 0;
+  end else begin
+    if (M_out == 1'b0)
+      Mod_out0 <= cos0;
+    else
+      Mod_out1 <= sin1;
+  end
+end
+```
 
 ### 

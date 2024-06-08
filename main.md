@@ -134,27 +134,12 @@ DDS 是一種數字信號處理技術，通過數字方式生成各種波形，�
 - 使用 **MATLAB** 或其他工具生成正弦波和餘弦波的一個週期內的數據點。
 - 將這些數據點存儲在 Verilog 設計中的記憶體或陣列中。
 
+
+
 2. 查找和輸出：
 - 設計一個計數器，用於指示查找表中的位置。
 - 根據計數器的值查詢對應的正弦波或餘弦波數據，並輸出。  
 
-### 使用 MATLAB 生成查找表
-使用 MATLAB 可以方便地生成正弦波和餘弦波的查找表數據，並導出為 Verilog 可以讀取的格式。
-
-```
-N = 256;
-sine_lut = sin(2*pi*(0:N-1)/N) * 2047 + 2048;
-cosine_lut = cos(2*pi*(0:N-1)/N) * 2047 + 2048;
-
-fileID = fopen('sine_lut.hex','w');
-fprintf(fileID, '%03X\n', round(sine_lut));
-fclose(fileID);
-
-fileID = fopen('cosine_lut.hex','w');
-fprintf(fileID, '%03X\n', round(cosine_lut));
-fclose(fileID);
-
-```
 
 
 **例子(不是本專題內的程式碼)：**
@@ -193,6 +178,28 @@ end
 endmodule
 
 ```
+
+### (補充)使用 MATLAB 生成查找表
+使用 MATLAB 可以方便地生成正弦波和餘弦波的查找表數據，並導出為 Verilog 可以讀取的格式。
+
+```
+N = 256;
+sine_lut = sin(2*pi*(0:N-1)/N) * 2047 + 2048;
+cosine_lut = cos(2*pi*(0:N-1)/N) * 2047 + 2048;
+
+fileID = fopen('sine_lut.hex','w');
+fprintf(fileID, '%03X\n', round(sine_lut));
+fclose(fileID);
+
+fileID = fopen('cosine_lut.hex','w');
+fprintf(fileID, '%03X\n', round(cosine_lut));
+fclose(fileID);
+
+```
+
+
+
+
 
 ### 5.3.2 數字直接合成 (Direct Digital Synthesis, DDS)
 **步驟：**

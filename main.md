@@ -119,8 +119,69 @@ always @(posedge clk_1M or negedge rst) begin
     demod_out <= 1'b1;
 end
 ```
+### 5.3 載波生成 (Carrier Generate)
+在 Vivado 中生成正弦波和餘弦波通常是通過使用數字信號處理技術來實現的。以下是一些常見的方法和原理：
+
+1. 查找表法 (Look-Up Table, LUT)
+查找表法是生成正弦波和餘弦波最常見的方法之一。其基本思想是預先計算和存儲一個週期內的正弦波和餘弦波值，然後根據需要進行查詢和輸出。
+
+2. 數字直接合成 (Direct Digital Synthesis, DDS)
+DDS 是一種數字信號處理技術，通過數字方式生成各種波形，包括正弦波和餘弦波。DDS 系統包括一個相位累加器和一個查找表。
+
+### 5.3.1 查找表法 (Look-Up Table, LUT)
+**步驟：**
+1. 生成查找表：
+- 使用 **MATLAB** 或其他工具生成正弦波和餘弦波的一個週期內的數據點。
+- 將這些數據點存儲在 Verilog 設計中的記憶體或陣列中。
+
+2. 查找和輸出：
+- 設計一個計數器，用於指示查找表中的位置。
+- 根據計數器的值查詢對應的正弦波或餘弦波數據，並輸出。
+**例子(不是本專題內的程式碼)：**
+```
+module sine_wave_gen(
+    input wire clk,
+    input wire rst,
+    output reg [11:0] sin_out,
+    output reg [11:0] cos_out
+);
+
+reg [7:0] addr;
+reg [11:0] sine_lut[0:255];
+reg [11:0] cosine_lut[0:255];
+
+// Initialize the lookup table
+initial begin
+    $readmemh("sine_lut.hex", sine_lut);
+    $readmemh("cosine_lut.hex", cosine_lut);
+end
+
+always @(posedge clk or posedge rst) begin
+    if (rst) begin
+        addr <= 8'd0;
+    end else begin
+        addr <= addr + 8'd1;
+    end
+end
+
+always @(posedge clk) begin
+    sin_out <= sine_lut[addr];
+    cos_out <= cosine_lut[addr];
+end
+
+endmodule
+
+```
+
+### 5.3.2 數字直接合成 (Direct Digital Synthesis, DDS)
 
 
 
-### 結果
+
+
+
+
+### 5.輸出結果
 ![alt text](image-1.png)
+我們該如何解讀這張圖，首先先看到**測試Binary訊號**。這個是一個隨意生成的輸入Binary訊號。<br>
+再來，將載波利用

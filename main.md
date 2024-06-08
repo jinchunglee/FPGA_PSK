@@ -13,9 +13,9 @@
 
 ## 2. 理輪基礎 Theoretical Background
 首先，我們可以將PSK分類為以下幾種：
--BPSK
--QPSK
--M-PSK (M=2^n)等
+- BPSK
+- QPSK
+- M-PSK (M=2^n)等
 
 ### 2.1.1 BPSK (Binary Phase Shift Keying)
 BPSK 是最簡單的PSK形式，通過兩個相位狀態（通常是0度和180度）來表示二進位資料的0和1。BPSK 的調製過程如下：

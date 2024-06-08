@@ -78,7 +78,7 @@ FPGA是一種集成了大量可程式設計邏輯單元的晶片，具有高並�
 - 調製模組
 - 解調模組
 - 載波生成模組
-- 控制模組
+- 控制模組(除頻器、M序列產生器、testbench)
 
 
 各模組通過匯流排互連，形成完整的PSK系統。
@@ -92,4 +92,6 @@ FPGA是一種集成了大量可程式設計邏輯單元的晶片，具有高並�
 
 ## 5. Verilog實現 (Verilog Implementation)
 ### 5.1 調製模組 (Modulation Module)
+![alt text](image.png)
 
+### 

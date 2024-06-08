@@ -138,6 +138,24 @@ DDS 是一種數字信號處理技術，通過數字方式生成各種波形，�
 - 設計一個計數器，用於指示查找表中的位置。
 - 根據計數器的值查詢對應的正弦波或餘弦波數據，並輸出。  
 
+### 使用 MATLAB 生成查找表
+使用 MATLAB 可以方便地生成正弦波和餘弦波的查找表數據，並導出為 Verilog 可以讀取的格式。
+
+```
+N = 256;
+sine_lut = sin(2*pi*(0:N-1)/N) * 2047 + 2048;
+cosine_lut = cos(2*pi*(0:N-1)/N) * 2047 + 2048;
+
+fileID = fopen('sine_lut.hex','w');
+fprintf(fileID, '%03X\n', round(sine_lut));
+fclose(fileID);
+
+fileID = fopen('cosine_lut.hex','w');
+fprintf(fileID, '%03X\n', round(cosine_lut));
+fclose(fileID);
+
+```
+
 
 **例子(不是本專題內的程式碼)：**
 
@@ -177,8 +195,54 @@ endmodule
 ```
 
 ### 5.3.2 數字直接合成 (Direct Digital Synthesis, DDS)
+**步驟：**
+1. 相位累加器：
+- 設計一個相位累加器，用於生成相位增量。每個時鐘週期增加固定的相位增量。
+- 相位累加器的輸出作為查找表的地址。
+
+2. 查找和輸出：
+- 用相位累加器的輸出查詢查找表，獲取對應的正弦波或餘弦波值。
 
 
+**例子(不是本專題內的程式碼)：**
+```
+module dds_wave_gen(
+    input wire clk,
+    input wire rst,
+    input wire [31:0] phase_inc, // Phase increment
+    output reg [11:0] sin_out,
+    output reg [11:0] cos_out
+);
+
+reg [31:0] phase_acc;
+reg [7:0] addr;
+reg [11:0] sine_lut[0:255];
+reg [11:0] cosine_lut[0:255];
+
+// Initialize the lookup table
+initial begin
+    $readmemh("sine_lut.hex", sine_lut);
+    $readmemh("cosine_lut.hex", cosine_lut);
+end
+
+always @(posedge clk or posedge rst) begin
+    if (rst) begin
+        phase_acc <= 32'd0;
+    end else begin
+        phase_acc <= phase_acc + phase_inc;
+    end
+end
+
+assign addr = phase_acc[31:24];
+
+always @(posedge clk) begin
+    sin_out <= sine_lut[addr];
+    cos_out <= cosine_lut[addr];
+end
+
+endmodule
+
+```
 
 
 

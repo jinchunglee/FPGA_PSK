@@ -91,7 +91,7 @@ FPGA是一種集成了大量可程式設計邏輯單元的晶片，具有高並�
 
 
 ## 5. Verilog實現 (Verilog Implementation)
-### 5.1 調製模組 (Modulation Module)
+### 5.1 調變模組 (Modulation Module)
 ```
 // PSK Modulation
 always @(posedge clk_1M or negedge rst) begin
@@ -106,5 +106,20 @@ always @(posedge clk_1M or negedge rst) begin
   end
 end
 ```
+
+### 5.2 解調模組 (Demodulation Module)
+```
+// PSK Demodulation
+always @(posedge clk_1M or negedge rst) begin
+  if (!rst)
+    demod_out <= 0;
+  else if (received_signal == cos0)
+    demod_out <= 1'b0;
+  else if (received_signal == sin1)
+    demod_out <= 1'b1;
+end
+```
+
+
 
 ### 

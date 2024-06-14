@@ -144,7 +144,7 @@ DDS 是一種數字信號處理技術，通過數字方式生成各種波形，�
 
 **例子(不是本專題內的程式碼)：**
 
-```
+```verilog
 module sine_wave_gen(
     input wire clk,
     input wire rst,
@@ -182,7 +182,7 @@ endmodule
 ### (補充)使用 MATLAB 生成查找表
 使用 MATLAB 可以方便地生成正弦波和餘弦波的查找表數據，並導出為 Verilog 可以讀取的格式。
 
-```
+```Matlab
 N = 256;
 sine_lut = sin(2*pi*(0:N-1)/N) * 2047 + 2048;
 cosine_lut = cos(2*pi*(0:N-1)/N) * 2047 + 2048;
@@ -194,10 +194,12 @@ fclose(fileID);
 fileID = fopen('cosine_lut.hex','w');
 fprintf(fileID, '%03X\n', round(cosine_lut));
 fclose(fileID);
-
 ```
 
+然而，上述程式碼對於波形繪畫並不細膩，因為只取了零點與上下峰值點。如下圖所示：
+![alt text](image-2.png)
 
+所以將要對上述程式碼進行修改，以下是對細膩度的程式碼修改：
 
 
 

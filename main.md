@@ -92,7 +92,7 @@ FPGA是一種集成了大量可程式設計邏輯單元的晶片，具有高並�
 
 ## 5. Verilog實現 (Verilog Implementation)
 ### 5.1 調變模組 (Modulation Module)
-```
+```verilog
 // PSK Modulation
 always @(posedge clk_1M or negedge rst) begin
   if (!rst) begin
@@ -108,7 +108,7 @@ end
 ```
 
 ### 5.2 解調模組 (Demodulation Module)
-```
+```verilog
 // PSK Demodulation
 always @(posedge clk_1M or negedge rst) begin
   if (!rst)
@@ -182,7 +182,7 @@ endmodule
 ### (補充)使用 MATLAB 生成查找表
 使用 MATLAB 可以方便地生成正弦波和餘弦波的查找表數據，並導出為 Verilog 可以讀取的格式。
 
-```Matlab
+```matlab
 N = 256;
 sine_lut = sin(2*pi*(0:N-1)/N) * 2047 + 2048;
 cosine_lut = cos(2*pi*(0:N-1)/N) * 2047 + 2048;

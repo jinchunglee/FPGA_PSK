@@ -199,7 +199,76 @@ fclose(fileID);
 然而，上述程式碼對於波形繪畫並不細膩，因為只取了零點與上下峰值點。如下圖所示：
 ![alt text](image-2.png)
 
-所以將要對上述程式碼進行修改，以下是對細膩度的程式碼修改：
+所以將要對上述程式碼進行修改，以下是我們對細膩度的程式碼修改：
+
+1. sin wave：
+
+```matlab
+% Set parameters
+f1 = 5000; % waveform frequency
+fs = 32 * f1; % sampling frequency, ensuring 32 points per cycle
+N = 12; % number of quantization bits
+num_cycles = 2000; % number of cycles
+samples_per_cycle = 32; % sampling points per cycle
+
+% Generate time vector
+t = 0:1/fs:(samples_per_cycle * num_cycles - 1)/fs;
+
+% Generate sine wave
+sin_wave = 2047 * sin(2 * pi * f1 * t);
+
+% Quantize to 12 bits
+quantized_wave = round(sin_wave);
+
+% Convert positive and negative values to 12-bit signed values
+quantized_wave(quantized_wave >= 2048) = 2047; % Set values greater than or equal to 2048 to the maximum value
+quantized_wave(quantized_wave <= -2048) = -2048; % Set values less than or equal to -2048 to the minimum value
+
+% Convert to 12-bit binary strings
+binary_wave = dec2bin(quantized_wave + 2048, N);
+
+% Write to text file
+fid = fopen('C:\homework\Communication experiment\project\testdata_sin', 'w');
+for i = 1:length(binary_wave)
+    fprintf(fid, '%s\n', binary_wave(i, :));
+end
+fclose(fid);
+
+```
+
+2. cos wave：
+```matlab
+% Set parameters
+f1 = 5000; % waveform frequency
+fs = 32 * f1; % sampling frequency, ensuring 32 points per cycle
+N = 12; % number of quantization bits
+num_cycles = 2000; % number of cycles
+samples_per_cycle = 32; % sampling points per cycle
+
+% Generate time vector
+t = 0:1/fs:(samples_per_cycle * num_cycles - 1)/fs;
+
+% Generate cos wave
+cos_wave = 2047 * cos(2 * pi * f1 * t);
+
+% Quantize to 12 bits
+quantized_wave = round(cos_wave);
+
+% Convert positive and negative values to 12-bit signed values
+quantized_wave(quantized_wave >= 2048) = 2047; % Set values greater than or equal to 2048 to the maximum value
+quantized_wave(quantized_wave <= -2048) = -2048; % Set values less than or equal to -2048 to the minimum value
+
+% Convert to 12-bit binary strings
+binary_wave = dec2bin(quantized_wave + 2048, N);
+
+% Write to text file
+fid = fopen('C:\homework\Communication experiment\project\testdata_cos', 'w');
+for i = 1:length(binary_wave)
+    fprintf(fid, '%s\n', binary_wave(i, :));
+end
+fclose(fid);
+```
+
 
 
 

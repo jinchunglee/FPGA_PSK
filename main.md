@@ -19,14 +19,13 @@
 
 
 #### 2.1 BPSK之頻譜效率
-這裡要補通信調變的上課點
+以下相關知識皆是我學習通信調變課程中學習完、歸納出來的知識點與筆記。
 
 這裡要說明general case 的PSK所需要的是相關知識(而以下皆為手寫推導得知)，分別有：
 1. PSK之載波
 2. PSK的Matched filter
 3. PSK的最佳Threshold
 4. PSK的錯誤率
-5. 在有phase error下的PSK的錯誤率
 
 #### 2.1.1 PSK之載波
 PSK之載波分別是：
@@ -37,44 +36,66 @@ PSK之載波分別是：
 
 
 
-#### 2.1.2 
-
-
-
-
-
-
 #### 2.1.2 PSK的Matched filter
-要知道PSK的Matched filter，首先我們要先定義
+什麼是Matched Filter：
+
+匹配濾波器（Matched Filter）是一種用於信號處理的濾波器，其設計目的是在存在雜訊的情況下，最大化信號的信噪比（SNR）。匹配濾波器通常用於檢測已知信號的存在，特別是在通信系統中接收和解調信號時非常有用。
 
 
-下方圖片是推導Matched filter的
-![alt text](image-6.png)
+要知道PSK的Matched filter，首先我們要先定義數位通信系統如何辨識訊號。以下是一個完整的通訊系統方塊圖：
+
+![alt text](image-7.png)
+source：Principles of communications systems, modulation, and noise. Roder E. Ziemer, William H. Tranter
+
+而matched filter就落在Demodulation的部分，
+
+
+下方圖片是推導Matched filter的方程式，我們定義訊號經過一黑盒子，就能達到最佳的SNR及最低的錯誤率，而這個黑盒子我們就叫做
+![alt text](image-6.png)matched filter
+
+但是上面證明的是$z$的最大值，為了能讓Q-function最小，這樣錯誤率就會最小(之後會談到)。
+
+並且我們希望是柯西不等式是發生在等號成立的時候，因為這樣$z$就是最大值，所以現在是要製造不等式成立的情況。
+
+我們學過線性代數就知道，柯西不等式要成立的條件是向量$u$ 和$v$ 線性相關，即存在一個常數$λ$，使得$u=λv=u=λv$
+而以下是我對於z的最大值推導，因為推導式子有當初令的$H(f)$
+
+![alt text](image-8.png)
+
+最終我們可知道，一通訊系統的最佳接收器為$h_0(t)=f(T-t)=S_2(T-t)-S_1(T-t)$，而這裡的$S_1$和$S_2$分別是載波。
+
+有了上述的基礎，我們就可以推導PSK版本的matched filter，
+![alt text](image-9.png)
+
+
+#### 2.1.3 PSK的最佳Threshold
+我們有兩種方法來計算最佳Threshold，分別是：
+1. 利用兩Random process信號的Gaussian分佈來找
+2. 利用摺積和能量的方式來理解
+
+
+#### Random process信號的Gaussian
+![alt text](image-10.png)
+其實我們不難發現就是兩者Gaussian分佈的交點
+
+#### 利用摺積和能量的方式來理解
+![alt text](image-11.png)
+其實我們可以用直覺的方式來理解。在分辨訊號是S1 or S2，最簡單就是看誰的能量多，就屬於誰接收。以這個邏輯來說，對於這個公式的理解就會很容易。
+
+知道以上事實，我們就可以利用"摺積和能量的方式來"計算PSK的最佳Threshold，如下圖：
+
+![alt text](image-12.png)
+
+其實也不難理解，我載波變動的東西是相位，對於能量觀點，弦波變化(隨著載波)，對於能量的變化還是一樣，因為都是0.5
+
+#### 2.1.4. PSK的錯誤率
+首先我們要了解 PSK的錯誤率，就要先做Matched filter下的錯誤率，如下圖：
+![alt text](image-13.png)
+為什麼會有相關係數在裡面?這個也滿好理解的，因為當兩個信號不像(不相關，相關係數=-1)，代表機器可以輕易的分辨出來兩者的差異，這表示說，當機器可以快速分辨，錯誤率就很低；兩個信號很像(相關，相關係數=1)，代表機器很難分辨出來兩者的差異，錯誤率自然就會提高。
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-### 2.1.1 BPSK (Binary Phase Shift Keying)
+### 2.2.1 BPSK (Binary Phase Shift Keying)
 BPSK 是最簡單的PSK形式，通過兩個相位狀態（通常是0度和180度）來表示二進位資料的0和1。BPSK 的調製過程如下：
 
 - 對於二進位“0”，載波信號保持初始相位。
@@ -84,7 +105,7 @@ BPSK 的優點是其實現簡單且抗雜訊能力強，但其頻譜效率較低
 
 
 
-### 2.1.2 QPSK (Quadrature Phase Shift Keying)
+### 2.2.2 QPSK (Quadrature Phase Shift Keying)
 QPSK 是另一種常見的PSK形式，通過四個相位狀態（0度、90度、180度和270度）來表示兩個二進位位元。因此，每個符號攜帶2 bits資訊，提高了頻譜效率。QPSK 的調製過程如下：
 
 - “00” 對應於0度相位。
@@ -95,7 +116,7 @@ QPSK 是另一種常見的PSK形式，通過四個相位狀態（0度、90度、
 
 QPSK 的優點是頻譜效率較高，但相對於BPSK，其抗雜訊能力稍差。
 
-### 2.1.3 PSK的優缺點
+### 2.2.3 PSK的優缺點
 
 **優點：**
 - PSK 調製技術簡單，實現成本低。
@@ -106,7 +127,7 @@ QPSK 的優點是頻譜效率較高，但相對於BPSK，其抗雜訊能力稍�
 - 隨著調製階數的增加（例如8PSK，16PSK），系統的抗雜訊能力會下降。
 - PSK 在多徑傳播環境中可能會出現較嚴重的碼間干擾（ISI）。<br>
 
-### 2.2 數位信號處理基礎 (Fundamentals of Digital Signal Processing)
+### 2.3 數位信號處理基礎 (Fundamentals of Digital Signal Processing)
 
 PSK 調製和解調過程中涉及以下基本的數位信號處理技術：
 
@@ -535,7 +556,7 @@ $j$代表虛數單位。
 在Vivado中，上述複雜步驟可以利用wave style來達成，只要我們對該訊號點擊右鍵，如下圖：
 ![alt text](image-4.png)
 
-就能將類比訊號轉換成類比訊號
+就能將數位訊號轉換成類比訊號。
 
 
 

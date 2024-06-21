@@ -17,6 +17,63 @@
 - QPSK
 - M-PSK (M=2^n)等
 
+
+#### 2.1 BPSK之頻譜效率
+這裡要補通信調變的上課點
+
+這裡要說明general case 的PSK所需要的是相關知識(而以下皆為手寫推導得知)，分別有：
+1. PSK之載波
+2. PSK的Matched filter
+3. PSK的最佳Threshold
+4. PSK的錯誤率
+5. 在有phase error下的PSK的錯誤率
+
+#### 2.1.1 PSK之載波
+PSK之載波分別是：
+1. $Asin(w_ct+cos^/text{-1}m)$
+2. $Asin(w_ct-cos^/text{-1}m)$
+然而，我們會將其做合併，利用一條『通式』，以$S_k$表示：
+![alt text](image-5.png)
+
+
+
+#### 2.1.2 
+
+
+
+
+
+
+#### 2.1.2 PSK的Matched filter
+要知道PSK的Matched filter，首先我們要先定義
+
+
+下方圖片是推導Matched filter的
+![alt text](image-6.png)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ### 2.1.1 BPSK (Binary Phase Shift Keying)
 BPSK 是最簡單的PSK形式，通過兩個相位狀態（通常是0度和180度）來表示二進位資料的0和1。BPSK 的調製過程如下：
 
@@ -25,8 +82,7 @@ BPSK 是最簡單的PSK形式，通過兩個相位狀態（通常是0度和180�
 
 BPSK 的優點是其實現簡單且抗雜訊能力強，但其頻譜效率較低，即每個符號只能攜帶1bit資訊。
 
-#### BPSK之頻譜效率
-這裡要補通信調變的上課點
+
 
 ### 2.1.2 QPSK (Quadrature Phase Shift Keying)
 QPSK 是另一種常見的PSK形式，通過四個相位狀態（0度、90度、180度和270度）來表示兩個二進位位元。因此，每個符號攜帶2 bits資訊，提高了頻譜效率。QPSK 的調製過程如下：

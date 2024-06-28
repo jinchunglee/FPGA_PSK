@@ -59,8 +59,8 @@ source：Principles of communications systems, modulation, and noise. Roder E. Z
 而matched filter就落在Demodulation的部分，
 
 
-下方圖片是推導Matched filter的方程式，我們定義訊號經過一黑盒子，就能達到最佳的SNR及最低的錯誤率，而這個黑盒子我們就叫做
-![alt text](image-6.png)matched filter
+下方圖片是推導Matched filter的方程式，我們定義訊號經過一黑盒子，就能達到最佳的SNR及最低的錯誤率，而這個黑盒子我們就叫做matched filter
+![alt text](image-6.png)
 
 但是上面證明的是$z$的最大值，為了能讓Q-function最小，這樣錯誤率就會最小(之後會談到)。
 
